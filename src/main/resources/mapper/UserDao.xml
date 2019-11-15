@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.dao.UserDaoI">
+	
+	<select id="find" parameterType="com.entor.model.User" 
+	resultType="com.entor.model.User">
+		select * from t_coc_user where 1=1
+		<if test="loginName!=null">
+			and login_name = #{loginName}
+		</if>
+		 order by id
+	</select>
+	
+	<insert id="insert" parameterType="com.entor.model.User" >
+		insert into t_coc_user
+		values
+		(seq_cocs.nextval,#{userName},#{loginName},#{password},0,0)
+	</insert>
+	
+</mapper>

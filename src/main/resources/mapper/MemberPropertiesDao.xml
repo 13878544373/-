@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.dao.MemberPropertiesDaoI">
+	
+	<select id="find" parameterType="com.entor.model.MemberProperties" 
+	resultType="com.entor.model.MemberProperties">
+		select cm.*,
+		(select name from t_coc_coc cc where cc.id = cm.coc_id) coc_name,
+		(select name from t_coc_work cw where cw.id = cm.coc_work and cw.coc_id = cm.id) work_name
+		 from t_coc_mempro cm where 1=1
+		<if test="memId!=null">
+			and mem_id = ${memId}
+		</if>
+		<if test="state!=null">
+			and state = #{state}
+		</if>
+	</select>
+	
+</mapper>

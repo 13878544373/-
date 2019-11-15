@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.dao.EnterpriseDaoI">
+
+	<select id="find" parameterType="com.entor.model.Enterprise" 
+	resultType="com.entor.model.Enterprise">
+		select * from t_coc_enterprise where 1=1
+		<if test="memId!=null">
+			and mem_id = ${memId}
+		</if>
+	</select>
+	
+	<insert id="insert" parameterType="com.entor.model.Enterprise">
+		insert into t_coc_enterprise
+		(id
+			<if test="name!=null">,name</if>
+			<if test="work!=null">,work</if>
+			<if test="joinTime!=null">,join_time</if>
+			<if test="industry!=null">,industry</if>
+			<if test="phone!=null">,phone</if>
+			<if test="address!=null">,address</if>
+			<if test="url!=null">,url</if>
+			<if test="produst!=null">,produst</if>
+			<if test="content!=null">,content</if>
+			<if test="memId!=null">,mem_id</if>
+		)
+		values
+		(seq_cocs.nextval
+			<if test="name!=null">,#{name}</if>
+			<if test="work!=null">,#{work}</if>
+			<if test="joinTime!=null">,to_date(to_char(#{joinTime},'yyyy-mm-dd'),'yyyy-mm-dd')</if>
+			<if test="industry!=null">,#{industry}</if>
+			<if test="phone!=null">,#{phone}</if>
+			<if test="address!=null">,#{address}</if>
+			<if test="url!=null">,#{url}</if>
+			<if test="produst!=null">,#{produst}</if>
+			<if test="content!=null">,#{content}</if>
+			<if test="memId!=null">,${memId}</if>
+		)
+	</insert>
+</mapper>  

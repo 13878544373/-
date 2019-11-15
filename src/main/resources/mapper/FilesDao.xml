@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.entor.dao.FilesDaoI">
+
+	<select id="find" parameterType="com.entor.model.Files"
+	resultType="com.entor.model.Files">
+		select * from t_coc_files where 1=1
+		<if test="tname!=null">
+			and tname = #{tname}
+		</if>
+		<if test="tid!=null">
+			and tid = ${tid}
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.entor.model.Files">
+		insert into t_coc_files
+		values(
+			seq_cocs.nextval,#{tname},${tid},
+			#{fileSize},#{oldName},#{newName},#{filePath}
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:c="http://www.springframework.org/schema/c" 
+		xmlns:cache="http://www.springframework.org/schema/cache" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+		xmlns:jee="http://www.springframework.org/schema/jee" 
+		xmlns:lang="http://www.springframework.org/schema/lang" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc" 
+		xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:task="http://www.springframework.org/schema/task" 
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:util="http://www.springframework.org/schema/util"
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+		
+		<!-- 扫描网页请求配置 -->
+		<context:component-scan base-package="com.entor.controller" />
+		
+		<!-- 配置传入与传出的json数据格式 -->
+		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+			<property name="messageConverters">
+				<list>
+					<bean class="com.entor.util.HttppMessageConverter">
+						<property name="supportedMediaTypes">
+							<list>
+								<value>text/html;charset=utf-8</value><!-- 防止IE出现下载json数据的情况 -->
+							</list>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+		
+		<!-- 配置视图解析的前缀与后缀 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/view"/><!-- 路径前缀 -->
+			<property name="suffix" value=".jsp" /><!-- 路径后缀 -->
+		</bean>
+		
+		<!-- 允许文件上传处理器 -->
+		<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+		p:defaultEncoding="utf-8" />
+		
+		<mvc:interceptors>
+			<!-- 配置登录拦截器 -->
+			<mvc:interceptor>
+				<!-- 匹配拦截的路径 -->
+				<mvc:mapping path="/**" />
+				<!-- 不拦截的路径 -->
+				<mvc:exclude-mapping path="/login.jsp"/>
+				<mvc:exclude-mapping path="/sc/toLogin.coc"/>
+				<mvc:exclude-mapping path="/sc/loginOut.coc"/>
+				<mvc:exclude-mapping path="/sc/forgetPwd.coc"/>
+				<mvc:exclude-mapping path="/sc/sendEmail.coc"/>
+				<mvc:exclude-mapping path="/sc/editPwd.coc"/>
+				<mvc:exclude-mapping path="/sc/pwdPage.coc"/>
+				<mvc:exclude-mapping path="/mc/editPwd.coc"/>
+				<!-- 注册bean -->
+				<bean class="com.entor.util.LoginInterceptor"/>
+			</mvc:interceptor>
+		</mvc:interceptors>
+</beans>
+		
+		
+		
+		
+		
+		
